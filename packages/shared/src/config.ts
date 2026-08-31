@@ -87,7 +87,7 @@ export function defaultConfig(): LoadScreenConfig {
 			],
 			links: [
 				{ label: "Discord", url: "https://discord.gg/example" },
-				{ label: "Website", url: "https://example.com" },
+				{ label: "fxManager", url: "https://fxmanager.dev" },
 			],
 			maxPlayers: 128,
 		},
