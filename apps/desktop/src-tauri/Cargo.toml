@@ -5,6 +5,10 @@ description = "FiveM loading screen builder"
 authors = ["Your Studio"]
 edition = "2021"
 
+[lib]
+name = "loadscreen_desktop"
+path = "src/lib.rs"
+
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
 

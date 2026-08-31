@@ -72,13 +72,6 @@ jobs:
           # Archive fivem-resource dist folder along with manifest & resource files
           Compress-Archive -Path "apps/fivem-resource/dist/*", "apps/fivem-resource/resource/*" -DestinationPath "dist-artifacts/fivem-resource.zip" -Force
 
-      - name: Bundle Tauri Desktop Artifact
-        shell: powershell
-        run: |
-          # Copy executable and bundle as a clean release ZIP
-          Copy-Item "apps/desktop/src-tauri/target/release/loadscreen-desktop.exe" -Destination "dist-artifacts/"
-          Compress-Archive -Path "dist-artifacts/loadscreen-desktop.exe" -DestinationPath "dist-artifacts/loadscreen-desktop.zip" -Force
-
       - name: Commit Updated Version Tags
         shell: bash
         run: |
@@ -119,8 +112,7 @@ jobs:
           body: ${{ steps.changelog.outputs.changelog }}
           files: |
             dist-artifacts/fivem-resource.zip
-            dist-artifacts/loadscreen-desktop.zip
-            apps/desktop/src-tauri/target/release/loadscreen-desktop.exe
+            apps/desktop/src-tauri/target/release/mps-loading-screen-app.exe
           draft: false
           prerelease: false
         env:
