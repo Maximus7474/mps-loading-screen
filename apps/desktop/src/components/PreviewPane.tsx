@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import type { LoadScreenConfig } from "@loadscreen/shared";
-import { renderPreviewHtml } from "@loadscreen/resource-generator";
+import type { LoadScreenConfig } from "@mps-loading-screen/shared";
+import { renderPreviewHtml } from "@mps-loading-screen/resource-generator";
 
 export function PreviewPane({ config }: { config: LoadScreenConfig }) {
 	const srcDoc = useMemo(() => renderPreviewHtml(config), [config]);

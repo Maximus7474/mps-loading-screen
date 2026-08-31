@@ -1,4 +1,4 @@
-import type { LoadScreenConfig } from "@loadscreen/shared";
+import type { LoadScreenConfig } from "@mps-loading-screen/shared";
 
 /**
  * A self-contained script appended to the preview HTML that mimics FiveM's

@@ -4,8 +4,8 @@ import type {
 	ResourceMeta,
 	ResourceGlobals,
 	BlockValues,
-} from "@loadscreen/shared";
-import { BLOCK_BY_ID } from "@loadscreen/shared";
+} from "@mps-loading-screen/shared";
+import { BLOCK_BY_ID } from "@mps-loading-screen/shared";
 
 export type ConfigState = LoadScreenConfig;
 

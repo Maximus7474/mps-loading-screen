@@ -1,4 +1,4 @@
-import type { ResourceMeta, ResourceGlobals } from "@loadscreen/shared";
+import type { ResourceMeta, ResourceGlobals } from "@mps-loading-screen/shared";
 import type { ResourceMetaInfo } from "../api/tauri";
 
 function linesToArray(v: unknown): string[] {

@@ -9,7 +9,7 @@
 		"typecheck": "tsc --noEmit -p tsconfig.json"
 	},
 	"dependencies": {
-		"@loadscreen/shared": "workspace:*"
+		"@mps-loading-screen/shared": "workspace:*"
 	},
 	"devDependencies": {
 		"bun-types": "latest",

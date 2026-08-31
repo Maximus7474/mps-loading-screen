@@ -1,4 +1,4 @@
-import type { ThemeConfig } from "@loadscreen/shared";
+import type { ThemeConfig } from "@mps-loading-screen/shared";
 
 const FONT_PRESETS: Array<[string, string]> = [
 	[

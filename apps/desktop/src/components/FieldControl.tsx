@@ -1,4 +1,4 @@
-import type { BlockField } from "@loadscreen/shared";
+import type { BlockField } from "@mps-loading-screen/shared";
 
 interface FieldControlProps {
 	field: BlockField;

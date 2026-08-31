@@ -7,7 +7,7 @@
  */
 import { writeFile, mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
-import { defaultConfig } from "@loadscreen/shared";
+import { defaultConfig } from "@mps-loading-screen/shared";
 import { render } from "../src/index.ts";
 
 const outputDir = resolve(

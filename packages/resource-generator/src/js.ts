@@ -1,4 +1,4 @@
-import type { LoadScreenConfig } from "@loadscreen/shared";
+import type { LoadScreenConfig } from "@mps-loading-screen/shared";
 import { blockValues, titleFallback } from "./html";
 
 function jstr(value: unknown): string {

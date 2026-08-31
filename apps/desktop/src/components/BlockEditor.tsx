@@ -1,5 +1,5 @@
-import type { BlockInstance, BlockValues, ResourceLink, ResourceGlobals } from "@loadscreen/shared";
-import { BLOCK_BY_ID } from "@loadscreen/shared";
+import type { BlockInstance, BlockValues, ResourceLink, ResourceGlobals } from "@mps-loading-screen/shared";
+import { BLOCK_BY_ID } from "@mps-loading-screen/shared";
 import { FieldControl } from "./FieldControl";
 
 interface BlockEditorProps {

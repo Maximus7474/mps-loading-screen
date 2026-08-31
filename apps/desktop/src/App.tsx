@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { LoadScreenConfig } from "@loadscreen/shared";
-import { defaultConfig, deserializeConfig, serializeConfig } from "@loadscreen/shared";
-import { render } from "@loadscreen/resource-generator";
+import type { LoadScreenConfig } from "@mps-loading-screen/shared";
+import { defaultConfig, deserializeConfig, serializeConfig } from "@mps-loading-screen/shared";
+import { render } from "@mps-loading-screen/resource-generator";
 import {
 	isTauri,
 	exportResource,

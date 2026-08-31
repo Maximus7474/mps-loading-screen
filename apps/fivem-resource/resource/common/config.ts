@@ -1,7 +1,7 @@
 import { LoadFile } from "./utils";
 
 /**
- * Mirrors the `ResourceGlobals` shape in @loadscreen/shared — the static
+ * Mirrors the `ResourceGlobals` shape in @mps-loading-screen/shared — the static
  * handover fields the app writes into `public/config.json`. Keeping a local
  * copy here keeps the shipped resource self-contained (no cross-package
  * dependency at build/runtime time).

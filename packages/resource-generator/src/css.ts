@@ -1,4 +1,4 @@
-import type { LoadScreenConfig, BlockInstance } from "@loadscreen/shared";
+import type { LoadScreenConfig, BlockInstance } from "@mps-loading-screen/shared";
 
 function cssColor(value: string | undefined, fallback: string): string {
 	return value?.trim() ? value : fallback;

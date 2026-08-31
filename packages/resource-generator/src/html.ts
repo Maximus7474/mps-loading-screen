@@ -1,4 +1,4 @@
-import type { LoadScreenConfig, BlockInstance } from "@loadscreen/shared";
+import type { LoadScreenConfig, BlockInstance } from "@mps-loading-screen/shared";
 import { escapeHtml, escapeUrl, attrs } from "./escape";
 
 export function blockValues(config: LoadScreenConfig, id: string): BlockInstance | undefined {

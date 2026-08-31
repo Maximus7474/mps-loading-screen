@@ -1,4 +1,4 @@
-import type { LoadScreenConfig } from "@loadscreen/shared";
+import type { LoadScreenConfig } from "@mps-loading-screen/shared";
 import { buildBody, buildTitle } from "./html";
 import { buildCss } from "./css";
 import { buildScript } from "./js";

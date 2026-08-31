@@ -6,7 +6,7 @@
  */
 import { writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { defaultConfig } from "@loadscreen/shared";
+import { defaultConfig } from "@mps-loading-screen/shared";
 import { renderPreviewHtml } from "../src/index.ts";
 
 const out = resolve(process.argv[3] ?? "interactive-preview.html");
