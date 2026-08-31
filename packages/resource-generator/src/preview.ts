@@ -7,8 +7,8 @@ import type { LoadScreenConfig } from "@loadscreen/shared";
  */
 export function buildPreviewShim(config: LoadScreenConfig): string {
 	const previewData = {
-		name: "Dexter Morgan",
-		serverAddress: "127.0.0.1:30120",
+		name: "Maximus Prime",
+		serverAddress: "Prime RP",
 		...config.globals,
 	};
 
