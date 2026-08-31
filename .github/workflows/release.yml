@@ -136,7 +136,7 @@ jobs:
         with:
           configurationJson: |
             {
-              "template": "# What's Changed\n\n${{CHANGELOG}}\n\n**Full Commit Log**: https://github.com/${{github.repository}}/commits/${{env.TAG_NAME}}",
+              "template": "# What's Changed\n\n#{{CHANGELOG}}\n\n**Full Commit Log**: https://github.com/${{github.repository}}/commits/${{env.TAG_NAME}}",
               "categories": [
                 { "title": "🚀 Features", "labels": ["feat", "feature"] },
                 { "title": "🐛 Fixes", "labels": ["fix", "perf"] },
