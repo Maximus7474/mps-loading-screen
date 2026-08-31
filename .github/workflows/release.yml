@@ -54,7 +54,7 @@ jobs:
           echo "target_version=$VER" >> $GITHUB_OUTPUT
 
       - name: Update Monorepo Package Versions
-        run: bun run scripts/bump-version.ts ${{ env.VERSION }}
+        run: bun run scripts/bumpversion.ts ${{ env.VERSION }}
 
       - name: Install Monorepo Dependencies
         run: bun install --frozen-lockfile
