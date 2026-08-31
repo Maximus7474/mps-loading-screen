@@ -1,0 +1,21 @@
+{
+	"serverName": "Loading Screen RP",
+	"gamemode": "Roleplay",
+	"motto": "A server with only a loading screen.",
+	"statuses": [
+		"Watching the loading screen",
+		"Analyzing the loading screen",
+		"Just the loading screen"
+	],
+	"links": [
+		{
+			"label": "Discord",
+			"url": "https://discord.gg/example"
+		},
+		{
+			"label": "Website",
+			"url": "https://example.com"
+		}
+	],
+	"maxPlayers": 128
+}

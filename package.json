@@ -1,0 +1,32 @@
+{
+	"name": "loadscreen-builder",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Visual builder for FiveM loading screens: a Tauri desktop app + an overextended-style TypeScript resource.",
+	"workspaces": [
+		"packages/*",
+		"apps/desktop",
+		"apps/fivem-resource"
+	],
+	"type": "module",
+	"scripts": {
+		"resource:build": "cd apps/fivem-resource && bun run build",
+		"resource:dev": "cd apps/fivem-resource && bun run dev",
+		"resource:typecheck": "cd apps/fivem-resource && bun run typecheck",
+		"seed": "bun run packages/resource-generator/scripts/seed.ts",
+		"preview": "bun run packages/resource-generator/scripts/preview.ts interactive-preview.html",
+		"desktop:dev": "cd apps/desktop && bun run tauri dev",
+		"desktop:build": "cd apps/desktop && bun run tauri build",
+		"build": "bun run resource:build",
+		"format": "oxfmt",
+		"format:check": "oxfmt --check",
+		"format:list": "oxfmt --list-different",
+		"typecheck": "cd apps/fivem-resource && bun run typecheck && tsc --noEmit -p ../../packages/shared && tsc --noEmit -p ../../packages/resource-generator && cd ../../apps/desktop && bun run typecheck"
+	},
+	"devDependencies": {
+		"oxfmt": "latest"
+	},
+	"engines": {
+		"bun": ">=1.1.0"
+	}
+}

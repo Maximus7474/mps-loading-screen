@@ -1,0 +1,34 @@
+{
+	"name": "loadscreen-resource",
+	"version": "1.0.0",
+	"private": true,
+	"description": "FiveM loading screen resource (TypeScript, based on the overextended fivem-ts boilerplate).",
+	"license": "MIT",
+	"author": {
+		"name": "Your Studio",
+		"url": ""
+	},
+	"type": "module",
+	"scripts": {
+		"tsd": "bun tsdown --",
+		"build": "bun tsd",
+		"dev": "bun tsdown --watch",
+		"lint": "oxlint",
+		"format": "oxfmt",
+		"typecheck": "tsc --noEmit -p resource/server && tsc --noEmit -p resource/client"
+	},
+	"devDependencies": {
+		"@citizenfx/client": "latest",
+		"@citizenfx/server": "latest",
+		"@types/bun": "latest",
+		"@types/node": "^22",
+		"fast-glob": "^3.3.2",
+		"oxfmt": "latest",
+		"oxlint": "latest",
+		"tsdown": "^0.22.0",
+		"typescript": "^6.0.3"
+	},
+	"engines": {
+		"node": ">=22.22.0"
+	}
+}
