@@ -1,5 +1,5 @@
 [package]
-name = "loadscreen-desktop"
+name = "mps-loading-screen-app"
 version = "0.1.0"
 description = "FiveM loading screen builder"
 authors = ["Your Studio"]

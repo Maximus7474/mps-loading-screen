@@ -1,5 +1,5 @@
 {
-	"name": "@loadscreen/resource-generator",
+	"name": "@mps-loading-screen/resource-generator",
 	"version": "0.1.0",
 	"private": true,
 	"type": "module",
