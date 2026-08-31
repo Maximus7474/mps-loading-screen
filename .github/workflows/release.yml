@@ -80,11 +80,13 @@ jobs:
 
           git add package.json apps/*/package.json packages/*/package.json apps/desktop/src-tauri/Cargo.toml apps/desktop/src-tauri/tauri.conf.json 2>/dev/null || true
 
-          if git diff --staged --quiet; then
+          if git diff --staged; then
             echo "No version changes to commit."
           else
             git commit -m "chore(release): bump package versions to ${{ env.TAG_NAME }} [skip ci]"
-            git push origin HEAD:${{ github.ref_name }} || echo "Failed to push committed version changes, continuing release process."
+
+            echo "Pushing version bump commit to branch: main"
+            git push origin HEAD:refs/heads/main
           fi
 
       - name: Generate Changelog
