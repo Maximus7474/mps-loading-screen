@@ -1,0 +1,163 @@
+name: Release Project
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g. 1.0.0 or v1.0.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js & Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Rust Cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            apps/desktop/src-tauri -> target
+
+      - name: Determine Target Version
+        id: versioning
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            INPUT_VER="${{ inputs.version }}"
+            VER="${INPUT_VER#v}"
+          else
+            TAG="${{ github.ref_name }}"
+            VER="${TAG#v}"
+          fi
+          echo "VERSION=$VER" >> $GITHUB_ENV
+          echo "TAG_NAME=v$VER" >> $GITHUB_ENV
+          echo "target_version=$VER" >> $GITHUB_OUTPUT
+
+      - name: Update Monorepo Package Versions
+        shell: bash
+        run: |
+          NEW_VER="${{ env.VERSION }}"
+          echo "Updating all package.json files to $NEW_VER..."
+
+          # Update root package.json
+          bun npm version $NEW_VER --no-git-tag-version
+
+          # Update all workspace package.json files
+          for json in $(find apps packages -name "package.json" -not -path "*/node_modules/*"); do
+            echo "Updating $json"
+            node -e "
+              const fs = require('fs');
+              const pkg = JSON.parse(fs.readFileSync('$json'));
+              pkg.version = '$NEW_VER';
+              fs.writeFileSync('$json', JSON.stringify(pkg, null, 2) + '\n');
+            "
+          done
+
+          # Update Cargo.toml version in Tauri
+          CARGO_TOML="apps/desktop/src-tauri/Cargo.toml"
+          if [ -f "$CARGO_TOML" ]; then
+            echo "Updating Cargo.toml..."
+            sed -i -E "0,/^version = \"[^\"]*\"/s//version = \"$NEW_VER\"/" "$CARGO_TOML"
+          fi
+
+          # Update tauri.conf.json version if present
+          TAURI_CONF="apps/desktop/src-tauri/tauri.conf.json"
+          if [ -f "$TAURI_CONF" ]; then
+            echo "Updating tauri.conf.json..."
+            node -e "
+              const fs = require('fs');
+              const conf = JSON.parse(fs.readFileSync('$TAURI_CONF'));
+              conf.version = '$NEW_VER';
+              fs.writeFileSync('$TAURI_CONF', JSON.stringify(conf, null, 2) + '\n');
+            "
+          fi
+
+      - name: Install Monorepo Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build FiveM Resource
+        run: bun run resource:build
+
+      - name: Build Tauri Desktop Executable
+        run: bun run desktop:build
+
+      - name: Bundle FiveM Resource Artifact
+        shell: powershell
+        run: |
+          New-Item -ItemType Directory -Force -Path "dist-artifacts"
+          # Archive fivem-resource dist folder along with manifest & resource files
+          Compress-Archive -Path "apps/fivem-resource/dist/*", "apps/fivem-resource/resource/*" -DestinationPath "dist-artifacts/fivem-resource.zip" -Force
+
+      - name: Bundle Tauri Desktop Artifact
+        shell: powershell
+        run: |
+          # Copy executable and bundle as a clean release ZIP
+          Copy-Item "apps/desktop/src-tauri/target/release/loadscreen-desktop.exe" -Destination "dist-artifacts/"
+          Compress-Archive -Path "dist-artifacts/loadscreen-desktop.exe" -DestinationPath "dist-artifacts/loadscreen-desktop.zip" -Force
+
+      - name: Commit Updated Version Tags
+        shell: bash
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add package.json apps/*/package.json packages/*/package.json apps/desktop/src-tauri/Cargo.toml apps/desktop/src-tauri/tauri.conf.json 2>/dev/null || true
+
+          if git diff --staged --quiet; then
+            echo "No version changes to commit."
+          else
+            git commit -m "chore(release): bump package versions to ${{ env.TAG_NAME }} [skip ci]"
+            git push origin HEAD:${{ github.ref_name }} || echo "Failed to push committed version changes, continuing release process."
+          fi
+
+      - name: Generate Changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v4
+        with:
+          configurationJson: |
+            {
+              "template": "# What's Changed\n\n${{CHANGELOG}}\n\n**Full Commit Log**: https://github.com/${{github.repository}}/commits/${{env.TAG_NAME}}",
+              "categories": [
+                { "title": "🚀 Features", "labels": ["feat", "feature"] },
+                { "title": "🐛 Fixes", "labels": ["fix", "perf"] },
+                { "title": "🧰 Maintenance", "labels": ["chore", "refactor"] }
+              ],
+              "ignore_manifest": true
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          name: Release ${{ env.TAG_NAME }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          files: |
+            dist-artifacts/fivem-resource.zip
+            dist-artifacts/loadscreen-desktop.zip
+            apps/desktop/src-tauri/target/release/loadscreen-desktop.exe
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
