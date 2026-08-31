@@ -21,7 +21,8 @@
 		"format": "oxfmt",
 		"format:check": "oxfmt --check",
 		"format:list": "oxfmt --list-different",
-		"typecheck": "cd apps/fivem-resource && bun run typecheck && tsc --noEmit -p ../../packages/shared && tsc --noEmit -p ../../packages/resource-generator && cd ../../apps/desktop && bun run typecheck"
+		"typecheck": "cd apps/fivem-resource && bun run typecheck && tsc --noEmit -p ../../packages/shared && tsc --noEmit -p ../../packages/resource-generator && cd ../../apps/desktop && bun run typecheck",
+		"version:bump": "bun run scripts/bumpversion.ts"
 	},
 	"devDependencies": {
 		"oxfmt": "latest"

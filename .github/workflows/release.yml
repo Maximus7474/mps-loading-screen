@@ -54,43 +54,7 @@ jobs:
           echo "target_version=$VER" >> $GITHUB_OUTPUT
 
       - name: Update Monorepo Package Versions
-        shell: bash
-        run: |
-          NEW_VER="${{ env.VERSION }}"
-          echo "Updating all package.json files to $NEW_VER..."
-
-          # Update root package.json
-          bun npm version $NEW_VER --no-git-tag-version
-
-          # Update all workspace package.json files
-          for json in $(find apps packages -name "package.json" -not -path "*/node_modules/*"); do
-            echo "Updating $json"
-            node -e "
-              const fs = require('fs');
-              const pkg = JSON.parse(fs.readFileSync('$json'));
-              pkg.version = '$NEW_VER';
-              fs.writeFileSync('$json', JSON.stringify(pkg, null, 2) + '\n');
-            "
-          done
-
-          # Update Cargo.toml version in Tauri
-          CARGO_TOML="apps/desktop/src-tauri/Cargo.toml"
-          if [ -f "$CARGO_TOML" ]; then
-            echo "Updating Cargo.toml..."
-            sed -i -E "0,/^version = \"[^\"]*\"/s//version = \"$NEW_VER\"/" "$CARGO_TOML"
-          fi
-
-          # Update tauri.conf.json version if present
-          TAURI_CONF="apps/desktop/src-tauri/tauri.conf.json"
-          if [ -f "$TAURI_CONF" ]; then
-            echo "Updating tauri.conf.json..."
-            node -e "
-              const fs = require('fs');
-              const conf = JSON.parse(fs.readFileSync('$TAURI_CONF'));
-              conf.version = '$NEW_VER';
-              fs.writeFileSync('$TAURI_CONF', JSON.stringify(conf, null, 2) + '\n');
-            "
-          fi
+        run: bun run scripts/bump-version.ts ${{ env.VERSION }}
 
       - name: Install Monorepo Dependencies
         run: bun install --frozen-lockfile
